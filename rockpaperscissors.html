@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+    <head></head>
+    <title></title>
+
+    <body>
+        
+        <script>
+
+            function computerPlay(){
+                let values = ["rock","paper","scissors"];
+                let index = Math.floor(Math.random()*values.length);
+                let valueToReturn = values[index];
+
+                return valueToReturn;
+            }
+
+            function winner(computerSelection,playerSelection){
+                let response = "";
+
+                if (computerSelection == playerSelection){
+                    response = "Tie! Play again!";
+                }
+                else if(computerSelection == "rock"){
+                        response = "You lose! Rock beats "+playerSelection+"!";
+                }
+                else if (playerSelection == "rock"){
+                        response = "You win! Rock beats "+computerSelection+"!";
+                }
+                else if (computerSelection =="paper"&&playerSelection=="scissors"){
+                    response = "You win! Scissor beats "+computerSelection+"!";
+                            }
+                else if (computerSelection =="scissors"&&playerSelection=="paper"){
+                    response = "You lose! Scissors beat "+playerSelectio+"!";
+
+                }
+
+                return response;
+            }
+
+            let computerSelection = computerPlay();
+            let playerSelection = prompt("Enter your selection: ");
+            console.log("Computer's selection: "+computerSelection);
+            console.log("Player's selection: "+playerSelection);
+            let result = winner(computerSelection,playerSelection);
+            console.log(result);
+        </script>
+    </body>
+
+
+
+</html>
