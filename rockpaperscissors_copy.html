@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+    <head></head>
+    <title></title>
+
+    <body>
+        
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissor">Scissors</button>
+
+        <div id="result-div">
+
+        </div>
+        <script>
+
+            
+            function computerPlay(){
+                let values = ["rock","paper","scissor"];
+                let index = Math.floor(Math.random()*values.length);
+                let valueToReturn = values[index];
+
+                return valueToReturn;
+            }
+
+            function runningScore(points){
+                points = points++;
+                return points;
+            }
+
+            function winner(computerSelection,playerSelection, playerPoints, computerPoints){
+                let response = "";
+                let scoreUpdate ="";
+                if (computerSelection == playerSelection){
+                    response = "Tie! Play again!";
+                }
+                else if(computerSelection == "rock"){
+                        response = "You lose! Rock beats "+playerSelection+"!";
+                        computerPoints = runningScore(computerPoints);
+                }
+                else if (playerSelection == "rock"){
+                        response = "You win! Rock beats "+computerSelection+"!";
+                        playerPoints = runningScore(playerPoints);
+                }
+                else if (computerSelection =="paper"&&playerSelection=="scissor"){
+                    response = "You win! Scissor beats "+computerSelection+"!";
+                    playerPoints = runningScore(playerPoints);
+                            }
+                else if (computerSelection =="scissor"&&playerSelection=="paper"){
+                    response = "You lose! Scissors beat "+playerSelection+"!";
+                    computerPoints = runningScore(computerPoints);
+                }
+
+                return response+" Computer: "+computerPoints+" Player: "+ playerPoints;
+            }
+
+           
+            let computerSelection = "";
+            let playerSelection = "";
+            let results = "";
+            let resultDiv = document.querySelector("#result-div");
+            let resultText = document.createElement('p');
+            let playerPoints = 0;
+            let computerPoints = 0;
+
+            const rockBtn = document.querySelector("#rock");
+                rockBtn.addEventListener('click', function(e){
+                    playerSelection = "rock";
+                    computerSelection = computerPlay();
+                    results = winner(computerSelection, playerSelection);
+                    resultText.textContent = results;
+                    resultDiv.appendChild(resultText);
+                 
+                });
+            const paperBtn = document.querySelector("#paper");
+                paperBtn.addEventListener('click', function(e){
+                        playerSelection = "paper";
+                        computerSelection = computerPlay();
+                        results = winner(computerSelection, playerSelection, playerPoints, computerPoints);
+                        resultText.textContent = results;
+                        resultDiv.appendChild(resultText);
+
+                    });
+            const scissorBtn = document.querySelector("#scissor");
+                scissorBtn.addEventListener('click', function(e){
+                        playerSelection = "scissor";
+                        computerSelection = computerPlay();
+                        console.log(computerSelection);
+                        console.log(playerSelection);
+                        results = winner(computerSelection, playerSelection);
+                        resultText.textContent = results;
+                        resultDiv.appendChild(resultText);
+
+                    });
+      
+            
+        </script>
+    </body>
+
+
+
+</html>
