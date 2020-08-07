@@ -6,10 +6,18 @@
 
     <body>
         
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissor">Scissors</button>
+
+        <div id="result-div">
+
+        </div>
         <script>
 
+            
             function computerPlay(){
-                let values = ["rock","paper","scissors"];
+                let values = ["rock","paper","scissor"];
                 let index = Math.floor(Math.random()*values.length);
                 let valueToReturn = values[index];
 
@@ -28,23 +36,55 @@
                 else if (playerSelection == "rock"){
                         response = "You win! Rock beats "+computerSelection+"!";
                 }
-                else if (computerSelection =="paper"&&playerSelection=="scissors"){
+                else if (computerSelection =="paper"&&playerSelection=="scissor"){
                     response = "You win! Scissor beats "+computerSelection+"!";
                             }
-                else if (computerSelection =="scissors"&&playerSelection=="paper"){
-                    response = "You lose! Scissors beat "+playerSelectio+"!";
+                else if (computerSelection =="scissor"&&playerSelection=="paper"){
+                    response = "You lose! Scissors beat "+playerSelection+"!";
 
                 }
 
                 return response;
             }
 
-            let computerSelection = computerPlay();
-            let playerSelection = prompt("Enter your selection: ");
-            console.log("Computer's selection: "+computerSelection);
-            console.log("Player's selection: "+playerSelection);
-            let result = winner(computerSelection,playerSelection);
-            console.log(result);
+            
+            let computerSelection = "";
+            let playerSelection = "";
+            let results = "";
+            let resultDiv = document.querySelector("#result-div");
+            let resultText = document.createElement('p');
+            
+            const rockBtn = document.querySelector("#rock");
+                rockBtn.addEventListener('click', function(e){
+                    playerSelection = "rock";
+                    computerSelection = computerPlay();
+                    results = winner(computerSelection, playerSelection);
+                    resultText.textContent = results;
+                    resultDiv.appendChild(resultText);
+                 
+                });
+            const paperBtn = document.querySelector("#paper");
+                paperBtn.addEventListener('click', function(e){
+                        playerSelection = "paper";
+                        computerSelection = computerPlay();
+                        results = winner(computerSelection, playerSelection);
+                        resultText.textContent = results;
+                        resultDiv.appendChild(resultText);
+
+                    });
+            const scissorBtn = document.querySelector("#scissor");
+                scissorBtn.addEventListener('click', function(e){
+                        playerSelection = "scissor";
+                        computerSelection = computerPlay();
+                        console.log(computerSelection);
+                        console.log(playerSelection);
+                        results = winner(computerSelection, playerSelection);
+                        resultText.textContent = results;
+                        resultDiv.appendChild(resultText);
+
+                    });
+      
+            
         </script>
     </body>
 
