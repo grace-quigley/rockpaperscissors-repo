@@ -5,94 +5,100 @@
     <title></title>
 
     <body>
-        
-        <button id="rock">Rock</button>
-        <button id="paper">Paper</button>
-        <button id="scissor">Scissors</button>
+        <button class="btn" id="rock">Rock</button>
+        <button class="btn" id="paper">Paper</button>
+        <button class="btn" id="scissor">Scissors</button>
 
         <div id="result-div">
 
         </div>
         <script>
-
-            
             function computerPlay(){
                 let values = ["rock","paper","scissor"];
                 let index = Math.floor(Math.random()*values.length);
                 let valueToReturn = values[index];
-
                 return valueToReturn;
             }
 
-            function runningScore(points){
-                points = points++;
-                return points;
+            function cScoreCounter(cScore){
+                cScore++;
+                console.log(cScore);
+                return cScore;
             }
 
-            function winner(computerSelection,playerSelection, playerPoints, computerPoints){
+            function pScoreCounter(pScore){
+                pScore++;
+                console.log(pScore);
+                return pScore;
+            }
+
+            function playRound(computerSelection,playerSelection,cScore, pScore){
+
                 let response = "";
-                let scoreUpdate ="";
-                if (computerSelection == playerSelection){
-                    response = "Tie! Play again!";
-                }
-                else if(computerSelection == "rock"){
+
+                if(cScore <=4 && pScore <=4){
+                    if (computerSelection == playerSelection){
+                        response = "Tie! Play again!";
+                    }
+                    else if(computerSelection == "rock"){
                         response = "You lose! Rock beats "+playerSelection+"!";
-                        computerPoints = runningScore(computerPoints);
-                }
-                else if (playerSelection == "rock"){
+                        cScore = cScoreCounter(cScore);
+                    }
+                    else if (playerSelection == "rock"){
                         response = "You win! Rock beats "+computerSelection+"!";
-                        playerPoints = runningScore(playerPoints);
-                }
-                else if (computerSelection =="paper"&&playerSelection=="scissor"){
-                    response = "You win! Scissor beats "+computerSelection+"!";
-                    playerPoints = runningScore(playerPoints);
-                            }
-                else if (computerSelection =="scissor"&&playerSelection=="paper"){
-                    response = "You lose! Scissors beat "+playerSelection+"!";
-                    computerPoints = runningScore(computerPoints);
-                }
+                        pScore = pScoreCounter(pScore);
+                    }
+                    else if (computerSelection =="paper"&&playerSelection=="scissor"){
+                        response = "You win! Scissor beats "+computerSelection+"!";
+                        pScore = pScoreCounter(pScore);
+                                }
+                    else if (computerSelection =="scissor"&&playerSelection=="paper"){
+                        response = "You lose! Scissors beat "+playerSelection+"!";
+                        cScore = cScoreCounter(cScore);
 
-                return response+" Computer: "+computerPoints+" Player: "+ playerPoints;
+                    }
+
+                    printResults.textContent = response + " Computer Score: " +cScore+ " Your Score: "+pScore;;
+                    resultDiv.appendChild(printResults);
+
+                    let btns = document.querySelectorAll(".btn");
+                        btns.forEach(btn => {
+                            btn.addEventListener('click', function(e) {
+                                playerSelection = btn.id;
+                                computerSelection = computerPlay();
+                                results = playRound(computerSelection, playerSelection, cScore, pScore);
+                            });
+                        });
+                    }   
+                else {
+                    console.log(cScore,pScore);
+                    if(cScore == 5){
+                        response = "You lose! Play the game again!";
+                    }
+                    else {
+                        response = "You win! Play the game again!";
+                    }
+                    printResults.textContent = response;
+                    resultDiv.appendChild(printResults);
+                }
             }
-
-           
+            
             let computerSelection = "";
             let playerSelection = "";
             let results = "";
             let resultDiv = document.querySelector("#result-div");
-            let resultText = document.createElement('p');
-            let playerPoints = 0;
-            let computerPoints = 0;
+            let printResults = document.createElement('p');
+            var cScore = 0;
+            var pScore = 0;
 
-            const rockBtn = document.querySelector("#rock");
-                rockBtn.addEventListener('click', function(e){
-                    playerSelection = "rock";
+            let btns = document.querySelectorAll(".btn");
+            btns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    playerSelection = btn.id;
                     computerSelection = computerPlay();
-                    results = winner(computerSelection, playerSelection);
-                    resultText.textContent = results;
-                    resultDiv.appendChild(resultText);
-                 
+                    results = playRound(computerSelection, playerSelection, cScore, pScore);
                 });
-            const paperBtn = document.querySelector("#paper");
-                paperBtn.addEventListener('click', function(e){
-                        playerSelection = "paper";
-                        computerSelection = computerPlay();
-                        results = winner(computerSelection, playerSelection, playerPoints, computerPoints);
-                        resultText.textContent = results;
-                        resultDiv.appendChild(resultText);
-
-                    });
-            const scissorBtn = document.querySelector("#scissor");
-                scissorBtn.addEventListener('click', function(e){
-                        playerSelection = "scissor";
-                        computerSelection = computerPlay();
-                        console.log(computerSelection);
-                        console.log(playerSelection);
-                        results = winner(computerSelection, playerSelection);
-                        resultText.textContent = results;
-                        resultDiv.appendChild(resultText);
-
-                    });
+            });
       
             
         </script>
